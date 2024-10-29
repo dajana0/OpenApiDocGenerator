@@ -11,7 +11,7 @@ public static class SchemaHelper
         if (schema == null) return "N/A";
 
         var sb = new StringBuilder();
-        var indentStr = new string(' ',   * 2);
+        var indentStr = new string(' ', indent * 2);
 
         // Podstawowe informacje o schemacie
         if (!string.IsNullOrEmpty(schema.Type))
