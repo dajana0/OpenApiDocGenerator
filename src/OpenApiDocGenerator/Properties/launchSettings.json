@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OpenApiDocGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "--input \"C:\\Users\\dajan\\source\\repos\\OpenApiDocGenerator\\example\\openapi.json\"\r\n--output \"C:\\Users\\dajan\\source\\repos\\OpenApiDocGenerator\\example\\openapi.pdf\""
+    }
+  }
+}

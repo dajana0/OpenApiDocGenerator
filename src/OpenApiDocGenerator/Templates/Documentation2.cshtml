@@ -1,0 +1,161 @@
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using OpenApiDocGenerator.Helper
+@model Microsoft.OpenApi.Models.OpenApiDocument
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>API Documentation - @Model.Info.Title</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .endpoint {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .method {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            color: white;
+        }
+
+        .get {
+            background-color: #61affe;
+        }
+
+        .post {
+            background-color: #49cc90;
+        }
+
+        .put {
+            background-color: #fca130;
+        }
+
+        .delete {
+            background-color: #f93e3e;
+        }
+
+        .path {
+            font-family: monospace;
+        }
+
+        .schema {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        .parameters table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .parameters th, .parameters td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .parameters th {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>@Model.Info.Title</h1>
+    <p>@Model.Info.Description</p>
+    <p>Version: @Model.Info.Version</p>
+
+    @foreach (var path in Model.Paths)
+    {
+        <div class="endpoint">
+            <h2>@path.Key</h2>
+
+            @foreach (var operation in path.Value.Operations)
+            {
+                <div>
+                    <span class="method @operation.Key.ToString().ToLower()">@operation.Key</span>
+                    <span class="path">@path.Key</span>
+                </div>
+
+                <p>@operation.Value.Description</p>
+
+                @if (operation.Value.Parameters?.Any() == true)
+                {
+                    <h3>Parameters</h3>
+                    <div class="parameters">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>In</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                                <th>Schema</th>
+                            </tr>
+                            @foreach (var param in operation.Value.Parameters)
+                            {
+                                <tr>
+                                    <td>@param.Name</td>
+                                    <td>@param.In</td>
+                                    <td>@param.Required</td>
+                                    <td>@param.Description</td>
+                                    <td><div class="schema">@SchemaHelper.FormatSchema(param.Schema)</div></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
+
+                @if (operation.Value.RequestBody != null)
+                {
+                    <h3>Request Body</h3>
+                    <div class="schema">
+                        @foreach (var content in operation.Value.RequestBody.Content)
+                        {
+                            <p>Content Type: @content.Key</p>
+                            <div class="schema">@SchemaHelper.FormatSchema(content.Value.Schema)</div>
+                        }
+                    </div>
+                }
+
+                <h3>Responses</h3>
+                @foreach (var response in operation.Value.Responses)
+                {
+                    <div>
+                        <h4>Status Code: @response.Key</h4>
+                        <p>@response.Value.Description</p>
+                        @if (response.Value.Content?.Any() == true)
+                        {
+                            <div class="schema">
+                                @foreach (var content in response.Value.Content)
+                                {
+                                    <p>Content Type: @content.Key</p>
+                                    <div class="schema">@SchemaHelper.FormatSchema(content.Value.Schema)</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    }
+</body>
+</html>

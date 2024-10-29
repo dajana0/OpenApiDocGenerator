@@ -1,0 +1,4390 @@
+{
+"x-generator": "NSwag v14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))",
+"swagger": "2.0",
+"info": {
+"title": "PGML Runtime REST API",
+"description": "PGML Runtime REST API definition.",
+"contact": {
+"name": "PGML Runtime REST API",
+"url": "https://github.com/pgga-es/pgml/tree/master/docs",
+"email": ""
+},
+"license": {
+"name": "Use under license",
+"url": "https://github.com/pgga-es/pgml"
+},
+"version": "v2.0"
+},
+"produces": [
+"text/plain",
+"application/json",
+"text/json"
+],
+"paths": {
+"/api/v2/runtime/{tenantId}/limits": {
+"post": {
+"tags": [
+"Limits"
+],
+"summary": "Creates a Limit for a specific tenant.",
+"operationId": "Limits_Create",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "RunsLimit",
+"in": "formData",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "ServingsLimit",
+"in": "formData",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "RunsMemoryLimit",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "ServingsMemoryLimit",
+"in": "formData",
+"x-nullable": true
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Limit was created.",
+"schema": {
+"$ref": "#/definitions/LimitDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"get": {
+"tags": [
+"Limits"
+],
+"summary": "Gets all limits per tenant.",
+"operationId": "Limits_GetAll",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of limits found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/LimitDetailedResponseDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/limits/{limitId}": {
+"get": {
+"tags": [
+"Limits"
+],
+"summary": "Gets a specific limit by its identifier.",
+"operationId": "Limits_Get",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant identifier.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "limitId",
+"in": "path",
+"required": true,
+"description": "Limit identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Limit found.",
+"schema": {
+"$ref": "#/definitions/LimitDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Limit not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/limits/latest": {
+"get": {
+"tags": [
+"Limits"
+],
+"summary": "Gets the latest limit with usage data.",
+"operationId": "Limits_GetLatest",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "The tenant identifier.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "string",
+"name": "memoryUnit",
+"in": "query",
+"description": "Memory unit (one of [\"b\", \"B\", \"KB\", \"KiB\", \"MB\", \"MiB\", \"GB\",\"GiB\", \"TB\", \"TiB\"]). Default value: MB.",
+"x-schema": {
+"$ref": "#/definitions/MemoryUnit"
+},
+"default": "MB",
+"x-nullable": false,
+"enum": [
+"b",
+"B",
+"KB",
+"KiB",
+"MB",
+"MiB",
+"GB",
+"GiB",
+"TB",
+"TiB"
+]
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Limit found.",
+"schema": {
+"$ref": "#/definitions/LimitWithUsageResponseDto"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Limit not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/predictionrequests": {
+"get": {
+"tags": [
+"PredictionRequests"
+],
+"summary": "Gets all prediction requests.",
+"operationId": "PredictionRequests_GetAll",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "query",
+"description": "Serving id.",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageSize",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageIndex",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of prediction requests found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/PredictionRequestResponseDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"post": {
+"tags": [
+"PredictionRequests"
+],
+"summary": "Creates a prediction request (and triggers creation of prediction) from specified inference pipeline serving.",
+"operationId": "PredictionRequests_CreatePrediction",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"name": "predictionCreateDTO",
+"in": "body",
+"required": true,
+"description": "The DTO.",
+"schema": {
+"$ref": "#/definitions/PredictionCreateRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Prediction request was created.",
+"schema": {
+"$ref": "#/definitions/PredictionRequestCreateResponseDTO"
+}
+},
+"422": {
+"x-nullable": false,
+"description": "Corresponding serving was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/predictionrequests/{predictionRequestId}": {
+"get": {
+"tags": [
+"PredictionRequests"
+],
+"summary": "Gets a specific PredictionRequest instance by it's identifier.",
+"operationId": "PredictionRequests_Get",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "predictionRequestId",
+"in": "path",
+"required": true,
+"description": "PredictionRequest identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "PredictionRequest found.",
+"schema": {
+"$ref": "#/definitions/PredictionRequestResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "PredictionRequest not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "PredictionRequest error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/predictions": {
+"get": {
+"tags": [
+"Predictions"
+],
+"summary": "Gets all prediction responses.",
+"operationId": "Predictions_GetAllV2",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "query",
+"description": "Serving id.",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "predictionRequestId",
+"in": "query",
+"description": "Prediction request id.",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "SortOrder",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "SortBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageSize",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageIndex",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterValue",
+"in": "query",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of prediction responses found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/PredictionResponseV2DTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"post": {
+"tags": [
+"Predictions"
+],
+"summary": "Creates a prediction from specified inference pipeline serving.",
+"operationId": "Predictions_CreatePrediction",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"name": "predictionCreateDTO",
+"in": "body",
+"required": true,
+"description": "The DTO.",
+"schema": {
+"$ref": "#/definitions/PredictionCreateRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Prediction was created.",
+"schema": {
+"$ref": "#/definitions/PredictionResponseDTO"
+}
+},
+"422": {
+"x-nullable": false,
+"description": "Corresponding serving was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/predictions/{predictionId}": {
+"get": {
+"tags": [
+"Predictions"
+],
+"summary": "Gets a specific Prediction instance by it's identifier.",
+"operationId": "Predictions_GetV2",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "predictionId",
+"in": "path",
+"required": true,
+"description": "Prediction id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Prediction found.",
+"schema": {
+"$ref": "#/definitions/PredictionDetailedResponseV2DTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Prediction not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Prediction error."
+}
+}
+},
+"patch": {
+"tags": [
+"Predictions"
+],
+"summary": "Update prediction name and description.",
+"operationId": "Predictions_Update",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "predictionId",
+"in": "path",
+"required": true,
+"format": "int32",
+"x-nullable": false
+},
+{
+"name": "request",
+"in": "body",
+"required": true,
+"schema": {
+"$ref": "#/definitions/PredictionUpdateRequestDTO"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Ok.",
+"schema": {
+"$ref": "#/definitions/PredictionDetailedResponseV2DTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+}
+}
+},
+"delete": {
+"tags": [
+"Predictions"
+],
+"summary": "Deletes a specific prediction instance by its identifier.",
+"operationId": "Predictions_Delete",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "predictionId",
+"in": "path",
+"required": true,
+"description": "Predictions id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Predictions deleted.",
+"schema": {
+"$ref": "#/definitions/PredictionDetailedResponseV2DTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Predictions not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": ""
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/resources": {
+"get": {
+"tags": [
+"Resources"
+],
+"summary": "Gets all resources.",
+"operationId": "Resources_GetAll",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "runId",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "resourceType",
+"in": "query",
+"x-schema": {
+"$ref": "#/definitions/ResourceTypeDTO"
+},
+"x-nullable": true,
+"enum": [
+"UserInput",
+"RunOutput",
+"EtlOutput",
+"PredictionInput"
+]
+},
+{
+"type": "string",
+"name": "SortOrder",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "SortBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageSize",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageIndex",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterValue",
+"in": "query",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of resources found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/ResourceResponseDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"post": {
+"tags": [
+"Resources"
+],
+"summary": "Creates a new resource on the file mount path.",
+"operationId": "Resources_Create",
+"consumes": [
+"multipart/form-data"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "string",
+"name": "Name",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "Description",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "Type",
+"in": "formData",
+"x-schema": {
+"$ref": "#/definitions/ResourceTypeCreateRequestDTO"
+},
+"x-nullable": false,
+"enum": [
+"UserInput",
+"RunOutput",
+"PredictionInput"
+]
+},
+{
+"type": "file",
+"name": "CompressedFile",
+"in": "formData",
+"x-nullable": true
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Resource created.",
+"schema": {
+"$ref": "#/definitions/ResourceDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/resources/{resourceId}": {
+"get": {
+"tags": [
+"Resources"
+],
+"summary": "Gets a specific resource by its identifier.",
+"operationId": "Resources_Get",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "resourceId",
+"in": "path",
+"required": true,
+"description": "Resource identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Resource found.",
+"schema": {
+"$ref": "#/definitions/ResourceDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Resource not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"patch": {
+"tags": [
+"Resources"
+],
+"summary": "Update resource name and description.",
+"operationId": "Resources_Update",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "resourceId",
+"in": "path",
+"required": true,
+"format": "int32",
+"x-nullable": false
+},
+{
+"name": "request",
+"in": "body",
+"required": true,
+"schema": {
+"$ref": "#/definitions/ResourceUpdateRequestDTO"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Ok.",
+"schema": {
+"$ref": "#/definitions/ResourceDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+}
+}
+},
+"delete": {
+"tags": [
+"Resources"
+],
+"summary": "Deletes a specific resource instance by its identifier.",
+"operationId": "Resources_Delete",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "resourceId",
+"in": "path",
+"required": true,
+"description": "Resource id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Resource deleted.",
+"schema": {
+"$ref": "#/definitions/ResourceDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Resource not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": ""
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/resources/{resourceId}/files": {
+"get": {
+"tags": [
+"Resources"
+],
+"summary": "Gets a compressed resource files by its identifier.",
+"operationId": "Resources_GetFiles",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "resourceId",
+"in": "path",
+"required": true,
+"description": "Resource identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Compressed files found.",
+"schema": {
+"type": "file"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Files not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/runs": {
+"post": {
+"tags": [
+"Runs"
+],
+"summary": "Executes a Run on runtime environment.",
+"operationId": "Runs_Execute",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"name": "runExecuteDTO",
+"in": "body",
+"required": true,
+"description": "The DTO.",
+"schema": {
+"$ref": "#/definitions/RunExecuteRequestDTO"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Run was created.",
+"schema": {
+"$ref": "#/definitions/RunDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Corresponding training pipeline was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"409": {
+"x-nullable": false,
+"description": "",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"get": {
+"tags": [
+"Runs"
+],
+"summary": "Gets all runs executed on the runtime.",
+"operationId": "Runs_GetAll",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "string",
+"name": "runStatus",
+"in": "query",
+"description": "Run status.",
+"x-schema": {
+"$ref": "#/definitions/RunStatus"
+},
+"x-nullable": true,
+"enum": [
+"Created",
+"InProgress",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+]
+},
+{
+"type": "string",
+"name": "pipelineType",
+"in": "query",
+"description": "Type of pipeline associated with a run.",
+"x-schema": {
+"$ref": "#/definitions/PipelineType"
+},
+"x-nullable": true,
+"enum": [
+"Training",
+"Inference",
+"ETL"
+]
+},
+{
+"type": "string",
+"name": "SortOrder",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "SortBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "SortByEntity",
+"in": "query",
+"x-schema": {
+"$ref": "#/definitions/RunSortEntity"
+},
+"x-nullable": true,
+"enum": [
+"Run",
+"Metric"
+]
+},
+{
+"type": "integer",
+"name": "PageSize",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageIndex",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterValue",
+"in": "query",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of runs found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/RunResponseDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/runs/{runId}": {
+"get": {
+"tags": [
+"Runs"
+],
+"summary": "Gets a specific run by its identifier.",
+"operationId": "Runs_Get",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "runId",
+"in": "path",
+"required": true,
+"description": "Run identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Run found.",
+"schema": {
+"$ref": "#/definitions/RunDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Run not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"delete": {
+"tags": [
+"Runs"
+],
+"summary": "Deletes a specific run instance by its identifier.",
+"operationId": "Runs_Delete",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "runId",
+"in": "path",
+"required": true,
+"description": "Run id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Run deleted.",
+"schema": {
+"$ref": "#/definitions/RunResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Run not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/runs/{runId}/logs": {
+"get": {
+"tags": [
+"Runs"
+],
+"summary": "Gets logs of a specific run by its identifier.",
+"operationId": "Runs_GetLogs",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "runId",
+"in": "path",
+"required": true,
+"description": "Run identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Run found.",
+"schema": {
+"$ref": "#/definitions/RunLogsResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Run not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/runs/{runId}/outputs": {
+"get": {
+"tags": [
+"Runs"
+],
+"summary": "Gets outputs of a specific run by its identifier.",
+"operationId": "Runs_GetOutputs",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "runId",
+"in": "path",
+"required": true,
+"description": "Run identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Run and outputs found.",
+"schema": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/RunOutputDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Run not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/runs/{runId}/properties": {
+"patch": {
+"tags": [
+"Runs"
+],
+"summary": "Updates a Run properties.",
+"operationId": "Runs_UpdateProperties",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "runId",
+"in": "path",
+"required": true,
+"description": "Run Id",
+"format": "int32",
+"x-nullable": false
+},
+{
+"name": "request",
+"in": "body",
+"required": true,
+"description": "Update request.",
+"schema": {
+"$ref": "#/definitions/RunPropertiesUpdateRequestDTO"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Run was updated.",
+"schema": {
+"$ref": "#/definitions/RunDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Corresponding run was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/servings": {
+"post": {
+"tags": [
+"Servings"
+],
+"summary": "Creates and starts an inference pipeline serving instance on runtime environment.",
+"operationId": "Servings_Create",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"name": "servingCreateDTO",
+"in": "body",
+"required": true,
+"description": "The DTO.",
+"schema": {
+"$ref": "#/definitions/ServingCreateRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Inference pipeline serving instance was created and started.",
+"schema": {
+"$ref": "#/definitions/ServingDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Either both or none were provided: RepositoryPipelineId with RepositoryVersionNumber or RunId. Also cannot start a serving due to limits reached. ",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"get": {
+"tags": [
+"Servings"
+],
+"summary": "Gets all servings executed on the runtime.",
+"operationId": "Servings_GetAllV2",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "string",
+"name": "servingStatus",
+"in": "query",
+"description": "Serving status.",
+"x-schema": {
+"$ref": "#/definitions/ServingStatus"
+},
+"x-nullable": true,
+"enum": [
+"Created",
+"Starting",
+"Ready",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+]
+},
+{
+"type": "array",
+"name": "runIds",
+"in": "query",
+"description": "List of run ids.",
+"collectionFormat": "multi",
+"x-nullable": true,
+"items": {
+"type": "integer",
+"format": "int32"
+}
+},
+{
+"type": "string",
+"name": "SortOrder",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "SortBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageSize",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "integer",
+"name": "PageIndex",
+"in": "query",
+"format": "int32",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterBy",
+"in": "query",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "FilterValue",
+"in": "query",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of servings found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/ServingResponseV2DTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/servings/{servingId}": {
+"patch": {
+"tags": [
+"Servings"
+],
+"summary": "Updates a serving on runtime environment.",
+"operationId": "Servings_Update",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "path",
+"required": true,
+"description": "Serving id.",
+"format": "int32",
+"x-nullable": false
+},
+{
+"type": "string",
+"name": "Status",
+"in": "formData",
+"x-schema": {
+"$ref": "#/definitions/ServingStatus"
+},
+"x-nullable": true,
+"enum": [
+"Created",
+"Starting",
+"Ready",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+]
+},
+{
+"type": "string",
+"name": "RuntimeId",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "RuntimeName",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "ErrorMessage",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "Name",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "string",
+"name": "Description",
+"in": "formData",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Serving was updated.",
+"schema": {
+"$ref": "#/definitions/ServingDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Corresponding serving was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"delete": {
+"tags": [
+"Servings"
+],
+"summary": "Deletes a specific serving instance by its identifier.",
+"operationId": "Servings_Delete",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "path",
+"required": true,
+"description": "Serving id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Serving deleted.",
+"schema": {
+"$ref": "#/definitions/ServingDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Serving not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"get": {
+"tags": [
+"Servings"
+],
+"summary": "Gets a specific serving instance by its identifier.",
+"operationId": "Servings_GetV2",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "path",
+"required": true,
+"description": "Serving id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Serving found.",
+"schema": {
+"$ref": "#/definitions/ServingDetailedResponseV2DTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Serving not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/servings/{servingId}/logs": {
+"get": {
+"tags": [
+"Servings"
+],
+"summary": "Gets logs of a specific serving by its identifier.",
+"operationId": "Servings_GetLogs",
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "path",
+"required": true,
+"description": "Serving id.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Serving found.",
+"schema": {
+"$ref": "#/definitions/ServingLogsResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Serving not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/{tenantId}/servings/{servingId}/properties": {
+"patch": {
+"tags": [
+"Servings"
+],
+"summary": "Updates a Serving properties.",
+"operationId": "Servings_UpdateProperties",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "string",
+"name": "tenantId",
+"in": "path",
+"required": true,
+"description": "Tenant id.",
+"format": "guid",
+"x-nullable": false
+},
+{
+"type": "integer",
+"name": "servingId",
+"in": "path",
+"required": true,
+"description": "Serving Id",
+"format": "int32",
+"x-nullable": false
+},
+{
+"name": "request",
+"in": "body",
+"required": true,
+"description": "Update request.",
+"schema": {
+"$ref": "#/definitions/ServingPropertiesUpdateRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Serving was updated.",
+"schema": {
+"$ref": "#/definitions/ServingResponseV2DTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Corresponding serving was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/forecastingengines": {
+"get": {
+"tags": [
+"ForecastingEngines"
+],
+"summary": "Gets all Forecasting Engines",
+"operationId": "ForecastingEngines_GetAll",
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Forecasting Engines found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/ForecastingEngineResponseDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Forecasting Engines not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"post": {
+"tags": [
+"ForecastingEngines"
+],
+"summary": "Creates a Forecasting Engine",
+"operationId": "ForecastingEngines_Add",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"name": "forecastingEngineCreateDTO",
+"in": "body",
+"required": true,
+"schema": {
+"$ref": "#/definitions/ForecastingEngineCreateRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Forecasting Engine was created.",
+"schema": {
+"$ref": "#/definitions/ForecastingEngineResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Request is invalid.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/forecastingengines/{forecastingEngineId}": {
+"get": {
+"tags": [
+"ForecastingEngines"
+],
+"summary": "Gets a specific Forecasting Engine instance by its identifier",
+"operationId": "ForecastingEngines_Get",
+"parameters": [
+{
+"type": "integer",
+"name": "forecastingEngineId",
+"in": "path",
+"required": true,
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Forecasting Engine found.",
+"schema": {
+"$ref": "#/definitions/ForecastingEngineResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Forecasting Engine not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"patch": {
+"tags": [
+"ForecastingEngines"
+],
+"summary": "Updates a forecasting engine with a compressed picture for UI purpose.",
+"operationId": "ForecastingEngines_Update",
+"consumes": [
+"multipart/form-data"
+],
+"parameters": [
+{
+"type": "integer",
+"name": "forecastingEngineId",
+"in": "path",
+"required": true,
+"description": "Forecasting engine id.",
+"format": "int32",
+"x-nullable": false
+},
+{
+"type": "file",
+"name": "ImageFile",
+"in": "formData",
+"x-nullable": true
+},
+{
+"type": "boolean",
+"name": "Enabled",
+"in": "formData",
+"x-nullable": true
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Forecasting engine was updated.",
+"schema": {
+"$ref": "#/definitions/ForecastingEngineResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Corresponding forecasting engine was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/pipelines": {
+"post": {
+"tags": [
+"Pipelines"
+],
+"summary": "Deploys a Pipeline to runtime environment.",
+"operationId": "Pipelines_Deploy",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"name": "pipelineDeployDTO",
+"in": "body",
+"required": true,
+"schema": {
+"$ref": "#/definitions/PipelineDeployRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"201": {
+"x-nullable": false,
+"description": "Pipeline was deployed.",
+"schema": {
+"$ref": "#/definitions/PipelineDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"409": {
+"x-nullable": false,
+"description": "Conflict.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"get": {
+"tags": [
+"Pipelines"
+],
+"summary": "Gets all pipelines that was deployed to the runtime.",
+"operationId": "Pipelines_GetAll",
+"parameters": [
+{
+"type": "string",
+"name": "pipelineType",
+"in": "query",
+"x-schema": {
+"$ref": "#/definitions/PipelineType"
+},
+"x-nullable": true,
+"enum": [
+"Training",
+"Inference",
+"ETL"
+]
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "List of pipelines found.",
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/PipelineResponseDTO"
+}
+}
+},
+"404": {
+"x-nullable": false,
+"description": "List not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+},
+"/api/v2/runtime/pipelines/{pipelineId}": {
+"get": {
+"tags": [
+"Pipelines"
+],
+"summary": "Gets a specific pipeline by its identifier.",
+"operationId": "Pipelines_Get",
+"parameters": [
+{
+"type": "integer",
+"name": "pipelineId",
+"in": "path",
+"required": true,
+"description": "Pipeline identifier.",
+"format": "int32",
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Pipeline found.",
+"schema": {
+"$ref": "#/definitions/PipelineDetailedResponseDTO"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Pipeline not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+},
+"patch": {
+"tags": [
+"Pipelines"
+],
+"summary": "Updates the pipeline to runtime environment.",
+"operationId": "Pipelines_Update",
+"consumes": [
+"application/json",
+"text/json",
+"application/*+json"
+],
+"parameters": [
+{
+"type": "integer",
+"name": "pipelineId",
+"in": "path",
+"required": true,
+"description": "Pipeline identifier.",
+"format": "int32",
+"x-nullable": false
+},
+{
+"name": "request",
+"in": "body",
+"required": true,
+"description": "Update request.",
+"schema": {
+"$ref": "#/definitions/PipelineDeployUpdateRequestDto"
+},
+"x-nullable": false
+}
+],
+"responses": {
+"200": {
+"x-nullable": false,
+"description": "Pipeline updated.",
+"schema": {
+"$ref": "#/definitions/PipelineDetailedResponseDTO"
+}
+},
+"400": {
+"x-nullable": false,
+"description": "Bad request.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"404": {
+"x-nullable": false,
+"description": "Corresponding pipeline was not found.",
+"schema": {
+"$ref": "#/definitions/ProblemDetails"
+}
+},
+"500": {
+"description": "Server error."
+}
+}
+}
+}
+},
+"definitions": {
+"ForecastingEngineResponseDTO": {
+"type": "object",
+"description": "Forecasting Engine response schema",
+"required": [
+"id",
+"enabled"
+],
+"properties": {
+"id": {
+"type": "integer",
+"description": "Forecasting engine identifier",
+"format": "int32"
+},
+"name": {
+"type": "string",
+"description": "Forecasting engine name"
+},
+"description": {
+"type": "string",
+"description": "Forecasting engine description"
+},
+"trainingPipeline": {
+"$ref": "#/definitions/PipelineId"
+},
+"inferencePipeline": {
+"$ref": "#/definitions/PipelineId"
+},
+"iiMapper": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/InputInputResponseDto"
+}
+},
+"oiMapper": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/OutputInputResponseDTO"
+}
+},
+"trainingSecrets": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"forecastingSecrets": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"enabled": {
+"type": "boolean"
+}
+}
+},
+"PipelineId": {
+"type": "object",
+"required": [
+"id",
+"repositoryId",
+"repositoryVersionNumber"
+],
+"properties": {
+"id": {
+"type": "integer",
+"description": "Pipeline PGML identifier",
+"format": "int32"
+},
+"repositoryId": {
+"type": "integer",
+"description": "Pipeline repository identifier",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"description": "Pipeline version identifier",
+"format": "int32"
+}
+}
+},
+"InputInputResponseDto": {
+"type": "object",
+"properties": {
+"trainingInput": {
+"type": "string"
+},
+"inferenceInput": {
+"type": "string"
+}
+}
+},
+"OutputInputResponseDTO": {
+"type": "object",
+"properties": {
+"trainingOutput": {
+"type": "string"
+},
+"inferenceInput": {
+"type": "string"
+}
+}
+},
+"SecretMappingDTO": {
+"type": "object",
+"description": "Maps secrets from runtime (k8s/docker) to pipeline environment variables",
+"properties": {
+"from": {
+"$ref": "#/definitions/SourceSecretMappingDTO"
+},
+"to": {
+"$ref": "#/definitions/DestinationSecretMappingDTO"
+}
+}
+},
+"SourceSecretMappingDTO": {
+"type": "object",
+"description": "Contains information about source data from runtime for secret mapping.",
+"properties": {
+"secret": {
+"type": "string",
+"description": "The name of the secret on runtime side (k8s secret). For the docker deployment should be null."
+},
+"key": {
+"type": "string",
+"description": "The key name inside of the secret on runtime side (k8s secret) that keeps data to be mapped to pipeline.\nFor the docker deployment should be null."
+},
+"value": {
+"type": "string",
+"description": "Value of the secret for the docker deployment (for k8s should be null)"
+}
+}
+},
+"DestinationSecretMappingDTO": {
+"type": "object",
+"description": "Contains information about destination of the secret mappings (environment variables of the pipeline)",
+"properties": {
+"blockInstance": {
+"type": "string",
+"description": "The name of the block instance which should receive the secret on the pipeline side.\nName of the environment variable will be prefixed with this name."
+},
+"key": {
+"type": "string",
+"description": "Name of the environment variable inside of the pipeline that will contain secret data.\nThe full name of the environment variable will consist of prefix from BlockInstance and suffix from Key."
+}
+}
+},
+"ProblemDetails": {
+"type": "object",
+"additionalProperties": {},
+"properties": {
+"type": {
+"type": "string"
+},
+"title": {
+"type": "string"
+},
+"status": {
+"type": "integer",
+"format": "int32"
+},
+"detail": {
+"type": "string"
+},
+"instance": {
+"type": "string"
+}
+}
+},
+"ForecastingEngineCreateRequestDto": {
+"type": "object",
+"description": "Forecasting Engine request schema",
+"required": [
+"inferencePipelineRepositoryId",
+"inferencePipelineRepositoryVersionNumber",
+"trainingPipelineRepositoryId",
+"trainingPipelineRepositoryVersionNumber"
+],
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"inferencePipelineRepositoryId": {
+"type": "integer",
+"format": "int32"
+},
+"inferencePipelineRepositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"trainingPipelineRepositoryId": {
+"type": "integer",
+"format": "int32"
+},
+"trainingPipelineRepositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"iiMapper": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/InputInputCreateRequestDto"
+}
+},
+"oiMapper": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/OutputInputCreateRequestDTO"
+}
+},
+"trainingSecrets": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"forecastingSecrets": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"enabled": {
+"type": "boolean"
+}
+}
+},
+"InputInputCreateRequestDto": {
+"type": "object",
+"properties": {
+"trainingInput": {
+"type": "string"
+},
+"inferenceInput": {
+"type": "string"
+}
+}
+},
+"OutputInputCreateRequestDTO": {
+"type": "object",
+"properties": {
+"trainingOutput": {
+"type": "string"
+},
+"inferenceInput": {
+"type": "string"
+}
+}
+},
+"LimitDetailedResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"runsLimit",
+"servingsLimit",
+"tenantId",
+"createdAt"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"runsLimit": {
+"type": "integer",
+"format": "int32"
+},
+"servingsLimit": {
+"type": "integer",
+"format": "int32"
+},
+"runsMemoryLimit": {
+"type": "string"
+},
+"servingsMemoryLimit": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"createdAt": {
+"type": "string",
+"format": "date-time"
+}
+}
+},
+"LimitWithUsageResponseDto": {
+"type": "object",
+"required": [
+"id",
+"runsLimit",
+"servingsLimit",
+"runsUsage",
+"servingsUsage",
+"runsLimitReached",
+"servingsLimitReached",
+"memoryLimit",
+"memoryUsage",
+"memoryUnit",
+"tenantId",
+"createdAt"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"runsLimit": {
+"type": "integer",
+"format": "int32"
+},
+"servingsLimit": {
+"type": "integer",
+"format": "int32"
+},
+"runsUsage": {
+"type": "integer",
+"format": "int32"
+},
+"servingsUsage": {
+"type": "integer",
+"format": "int32"
+},
+"runsLimitReached": {
+"type": "boolean"
+},
+"servingsLimitReached": {
+"type": "boolean"
+},
+"runsMemoryLimit": {
+"type": "number",
+"format": "double"
+},
+"runsMemoryUsage": {
+"type": "number",
+"format": "double"
+},
+"servingsMemoryLimit": {
+"type": "number",
+"format": "double"
+},
+"servingsMemoryUsage": {
+"type": "number",
+"format": "double"
+},
+"memoryLimit": {
+"type": "number",
+"format": "double"
+},
+"memoryUsage": {
+"type": "number",
+"format": "double"
+},
+"memoryUnit": {
+"$ref": "#/definitions/MemoryUnit"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"createdAt": {
+"type": "string",
+"format": "date-time"
+}
+}
+},
+"MemoryUnit": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"b",
+"B",
+"KB",
+"KiB",
+"MB",
+"MiB",
+"GB",
+"GiB",
+"TB",
+"TiB"
+],
+"enum": [
+"b",
+"B",
+"KB",
+"KiB",
+"MB",
+"MiB",
+"GB",
+"GiB",
+"TB",
+"TiB"
+]
+},
+"PipelineDetailedResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"type",
+"repositoryId",
+"repositoryVersionNumber"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"type": {
+"$ref": "#/definitions/PipelineType"
+},
+"description": {
+"type": "string"
+},
+"repositoryId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"imageName": {
+"type": "string"
+},
+"inputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PipelineInputDTO"
+}
+},
+"outputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PipelineOutputDTO"
+}
+},
+"pipelineResourceRequirements": {
+"$ref": "#/definitions/PipelineResourceRequirementsDTO"
+},
+"uiProperties": {
+"$ref": "#/definitions/UiPropertiesDTO"
+}
+}
+},
+"PipelineType": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Training",
+"Inference",
+"ETL"
+],
+"enum": [
+"Training",
+"Inference",
+"ETL"
+]
+},
+"PipelineInputDTO": {
+"allOf": [
+{
+"$ref": "#/definitions/PipelineInterfaceItemDTO"
+},
+{
+"type": "object",
+"required": [
+"liveData"
+],
+"properties": {
+"default": {
+"type": "string"
+},
+"liveData": {
+"type": "boolean"
+},
+"range": {
+"type": "string"
+}
+}
+}
+]
+},
+"PipelineInterfaceItemDTO": {
+"type": "object",
+"x-abstract": true,
+"required": [
+"optional"
+],
+"properties": {
+"type": {
+"type": "string"
+},
+"shortDescription": {
+"type": "string"
+},
+"longDescription": {
+"type": "string"
+},
+"optional": {
+"type": "boolean"
+}
+}
+},
+"PipelineOutputDTO": {
+"allOf": [
+{
+"$ref": "#/definitions/PipelineInterfaceItemDTO"
+},
+{
+"type": "object"
+}
+]
+},
+"PipelineResourceRequirementsDTO": {
+"type": "object",
+"properties": {
+"memoryLimit": {
+"type": "string"
+},
+"memoryRequest": {
+"type": "string"
+},
+"cpuLimit": {
+"type": "string"
+},
+"cpuRequest": {
+"type": "string"
+}
+}
+},
+"UiPropertiesDTO": {
+"type": "object",
+"properties": {
+"metricsDefinition": {
+"$ref": "#/definitions/MetricsDefinitionDTO"
+},
+"algorithmsDefinitions": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/AlgorithmDefinitionDTO"
+}
+},
+"dataSourcesDefinitions": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/DataSourceDefinitionDTO"
+}
+},
+"parameterGroupsDefinitions": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/ParameterGroupDefinitionDTO"
+}
+}
+}
+},
+"MetricsDefinitionDTO": {
+"type": "object",
+"properties": {
+"metricNamesOutput": {
+"type": "string",
+"description": "Pipeline's output name that contains all metric names as serialized list of strings."
+},
+"metricValuesOutput": {
+"type": "string",
+"description": "Pipeline's output name that contains all metric values as serialized list of floats."
+},
+"nameMappings": {
+"type": "array",
+"description": "List of all metrics with user friendly names mapping.",
+"items": {
+"$ref": "#/definitions/MetricNameMappingDTO"
+}
+}
+}
+},
+"MetricNameMappingDTO": {
+"type": "object",
+"description": "Represents metric name mapping from pipeline execution.",
+"properties": {
+"name": {
+"type": "string",
+"description": "Original name of the metric taken from pipeline output."
+},
+"displayName": {
+"type": "string",
+"description": "User friendly name of the metric."
+}
+}
+},
+"AlgorithmDefinitionDTO": {
+"type": "object",
+"description": "Represents one algorithm available for a pipeline to be enabled across execution process",
+"required": [
+"accuracy",
+"speed",
+"interpretability"
+],
+"properties": {
+"name": {
+"type": "string",
+"description": "Name of the Algorithm."
+},
+"input": {
+"type": "string",
+"description": "Input name in matching the pipeline input. "
+},
+"description": {
+"type": "string",
+"description": "Description of the algorithm. "
+},
+"accuracy": {
+"type": "integer",
+"description": "Accuracy Score.",
+"format": "int32"
+},
+"speed": {
+"type": "integer",
+"description": "Speed Score.",
+"format": "int32"
+},
+"interpretability": {
+"type": "integer",
+"description": "Interpretability Score.",
+"format": "int32"
+},
+"dependentGroup": {
+"type": "string",
+"description": "The name of the related group."
+}
+}
+},
+"DataSourceDefinitionDTO": {
+"type": "object",
+"properties": {
+"input": {
+"type": "string",
+"description": "Data Source input parameter."
+},
+"displayName": {
+"type": "string",
+"description": "User friendly name of the data source."
+},
+"trainRatioParameter": {
+"type": "string",
+"description": "Train to Test ratio input.\n            "
+},
+"holdRatioParameter": {
+"type": "string",
+"description": "Test To Hold ratio input."
+},
+"dependantVariableParameter": {
+"type": "string",
+"description": "Dependant variable input."
+}
+}
+},
+"ParameterGroupDefinitionDTO": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string",
+"description": "User friendly name of the group"
+},
+"parametersPrefix": {
+"type": "string",
+"description": "Applied prefix for inputs definition"
+}
+}
+},
+"PipelineDeployRequestDto": {
+"type": "object",
+"required": [
+"type",
+"repositoryId",
+"repositoryVersionNumber"
+],
+"properties": {
+"name": {
+"type": "string"
+},
+"type": {
+"$ref": "#/definitions/PipelineType"
+},
+"description": {
+"type": "string"
+},
+"repositoryId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"inputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PipelineInputDTO"
+}
+},
+"outputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PipelineOutputDTO"
+}
+},
+"pipelineResourceRequirements": {
+"$ref": "#/definitions/PipelineResourceRequirementsDTO"
+},
+"uiProperties": {
+"$ref": "#/definitions/UiPropertiesDTO"
+}
+}
+},
+"PipelineResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"type",
+"repositoryId",
+"repositoryVersionNumber"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"type": {
+"$ref": "#/definitions/PipelineType"
+},
+"description": {
+"type": "string"
+},
+"repositoryId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"imageName": {
+"type": "string"
+}
+}
+},
+"PipelineDeployUpdateRequestDto": {
+"type": "object",
+"properties": {
+"pipelineResourceRequirements": {
+"$ref": "#/definitions/PipelineResourceRequirementsDTO"
+}
+}
+},
+"PredictionRequestResponseDTO": {
+"type": "object",
+"required": [
+"predictionRequestId",
+"tenantId"
+],
+"properties": {
+"predictionRequestId": {
+"type": "integer",
+"format": "int32"
+},
+"predictionInputsByName": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PredictionInputDTO"
+}
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"owner": {
+"type": "string"
+}
+}
+},
+"PredictionInputDTO": {
+"type": "object",
+"properties": {
+"value": {
+"type": "string"
+},
+"type": {
+"type": "string"
+},
+"representation": {
+"type": "string"
+}
+}
+},
+"PredictionRequestCreateResponseDTO": {
+"type": "object",
+"required": [
+"predictionRequestId",
+"tenantId"
+],
+"properties": {
+"predictionRequestId": {
+"type": "integer",
+"format": "int32"
+},
+"predictionInputsByName": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PredictionInputDTO"
+}
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"owner": {
+"type": "string"
+}
+}
+},
+"PredictionCreateRequestDto": {
+"type": "object",
+"required": [
+"servingId"
+],
+"properties": {
+"servingId": {
+"type": "integer",
+"format": "int32"
+},
+"predictionInputsByName": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PredictionInputDTO"
+}
+}
+}
+},
+"PredictionDetailedResponseV2DTO": {
+"type": "object",
+"required": [
+"predictionRequestId",
+"predictionId",
+"tenantId",
+"servingId",
+"status"
+],
+"properties": {
+"predictionRequestId": {
+"type": "integer",
+"format": "int32"
+},
+"owner": {
+"type": "string"
+},
+"predictionId": {
+"type": "integer",
+"format": "int32"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"forecastingEngineName": {
+"type": "string"
+},
+"servingId": {
+"type": "integer",
+"format": "int32"
+},
+"status": {
+"$ref": "#/definitions/PredictionStatus"
+},
+"outputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PredictionOutputDTO"
+}
+},
+"inputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PredictionInputDTO"
+}
+}
+}
+},
+"PredictionStatus": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Ready",
+"Failed"
+],
+"enum": [
+"Ready",
+"Failed"
+]
+},
+"PredictionOutputDTO": {
+"type": "object",
+"properties": {
+"value": {
+"type": "string"
+},
+"type": {
+"type": "string"
+},
+"representation": {
+"type": "string"
+}
+}
+},
+"PredictionResponseV2DTO": {
+"type": "object",
+"required": [
+"predictionRequestId",
+"id",
+"tenantId",
+"servingId",
+"status"
+],
+"properties": {
+"predictionRequestId": {
+"type": "integer",
+"format": "int32"
+},
+"owner": {
+"type": "string"
+},
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"forecastingEngineName": {
+"type": "string"
+},
+"servingId": {
+"type": "integer",
+"format": "int32"
+},
+"status": {
+"$ref": "#/definitions/PredictionStatus"
+}
+}
+},
+"PredictionResponseDTO": {
+"type": "object",
+"required": [
+"predictionRequestId",
+"predictionId",
+"tenantId"
+],
+"properties": {
+"outputs": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/PredictionOutputDTO"
+}
+},
+"predictionRequestId": {
+"type": "integer",
+"format": "int32"
+},
+"owner": {
+"type": "string"
+},
+"predictionId": {
+"type": "integer",
+"format": "int32"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+}
+}
+},
+"PredictionUpdateRequestDTO": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+}
+},
+"ResourceDetailedResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"status",
+"sizeInBytes",
+"uploadedAt",
+"tenantId",
+"type"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/ResourceStatus"
+},
+"sizeInBytes": {
+"type": "integer",
+"format": "int64"
+},
+"uploadedAt": {
+"type": "string",
+"format": "date-time"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"numberOfFiles": {
+"type": "integer",
+"format": "int32"
+},
+"type": {
+"$ref": "#/definitions/ResourceTypeDTO"
+},
+"deploymentPath": {
+"type": "string"
+},
+"runId": {
+"type": "integer",
+"format": "int32"
+},
+"runOutputName": {
+"type": "string"
+},
+"summary": {
+"type": "string"
+}
+}
+},
+"ResourceStatus": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Extracting",
+"Extracted",
+"StatisticsCalculating",
+"StatisticsCalculated",
+"DeployedByRun",
+"StatisticsCalculationFailed",
+"Deleted",
+"Error"
+],
+"enum": [
+"Extracting",
+"Extracted",
+"StatisticsCalculating",
+"StatisticsCalculated",
+"DeployedByRun",
+"StatisticsCalculationFailed",
+"Deleted",
+"Error"
+]
+},
+"ResourceTypeDTO": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"UserInput",
+"RunOutput",
+"EtlOutput",
+"PredictionInput"
+],
+"enum": [
+"UserInput",
+"RunOutput",
+"EtlOutput",
+"PredictionInput"
+]
+},
+"ResourceResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"status",
+"sizeInBytes",
+"uploadedAt",
+"tenantId",
+"type"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/ResourceStatus"
+},
+"sizeInBytes": {
+"type": "integer",
+"format": "int64"
+},
+"uploadedAt": {
+"type": "string",
+"format": "date-time"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"numberOfFiles": {
+"type": "integer",
+"format": "int32"
+},
+"type": {
+"$ref": "#/definitions/ResourceTypeDTO"
+}
+}
+},
+"ResourceTypeCreateRequestDTO": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"UserInput",
+"RunOutput",
+"PredictionInput"
+],
+"enum": [
+"UserInput",
+"RunOutput",
+"PredictionInput"
+]
+},
+"ResourceUpdateRequestDTO": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+}
+},
+"RunDetailedResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"repositoryPipelineId",
+"repositoryVersionNumber",
+"status",
+"totalBlocks",
+"finishedBlocks",
+"tenantId",
+"autoDeployEnabled"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"status": {
+"$ref": "#/definitions/RunStatus"
+},
+"totalBlocks": {
+"type": "integer",
+"format": "int32"
+},
+"finishedBlocks": {
+"type": "integer",
+"format": "int32"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"runtimeName": {
+"type": "string"
+},
+"runtimeId": {
+"type": "string"
+},
+"pipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"created": {
+"type": "string",
+"format": "date-time"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"forecastingEngineName": {
+"type": "string"
+},
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"metrics": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/MetricDTO"
+}
+},
+"secretMappings": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"executionParameters": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/ExecutionParameterDataDTO"
+}
+},
+"logsTail": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"detailedStatus": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/DetailedStatusDTO"
+}
+},
+"autoDeployEnabled": {
+"type": "boolean"
+}
+}
+},
+"RunStatus": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Created",
+"InProgress",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+],
+"enum": [
+"Created",
+"InProgress",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+]
+},
+"MetricDTO": {
+"type": "object",
+"required": [
+"value"
+],
+"properties": {
+"name": {
+"type": "string"
+},
+"value": {
+"type": "number",
+"format": "double"
+}
+}
+},
+"ExecutionParameterDataDTO": {
+"type": "object",
+"properties": {
+"value": {
+"type": "string"
+},
+"representation": {
+"type": "string"
+}
+}
+},
+"DetailedStatusDTO": {
+"type": "object",
+"properties": {
+"runId": {
+"type": "string"
+},
+"state": {
+"type": "string"
+},
+"blocks": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/BlockDetailedStatusDTO"
+}
+},
+"details": {
+"type": "string"
+},
+"timestampStarting": {
+"type": "string",
+"format": "date-time"
+},
+"timestampInitializing": {
+"type": "string",
+"format": "date-time"
+},
+"timestampReady": {
+"type": "string",
+"format": "date-time"
+},
+"timestampRunning": {
+"type": "string",
+"format": "date-time"
+},
+"timestampFinished": {
+"type": "string",
+"format": "date-time"
+},
+"timestampFailed": {
+"type": "string",
+"format": "date-time"
+},
+"timestampTerminating": {
+"type": "string",
+"format": "date-time"
+},
+"timestampTerminated": {
+"type": "string",
+"format": "date-time"
+}
+}
+},
+"BlockDetailedStatusDTO": {
+"type": "object",
+"properties": {
+"runId": {
+"type": "string"
+},
+"state": {
+"type": "string"
+},
+"details": {
+"type": "string"
+},
+"timestampStarting": {
+"type": "string",
+"format": "date-time"
+},
+"timestampInitializing": {
+"type": "string",
+"format": "date-time"
+},
+"timestampReady": {
+"type": "string",
+"format": "date-time"
+},
+"timestampRunning": {
+"type": "string",
+"format": "date-time"
+},
+"timestampFinished": {
+"type": "string",
+"format": "date-time"
+},
+"timestampFailed": {
+"type": "string",
+"format": "date-time"
+},
+"timestampTerminating": {
+"type": "string",
+"format": "date-time"
+},
+"timestampTerminated": {
+"type": "string",
+"format": "date-time"
+}
+}
+},
+"RunExecuteRequestDTO": {
+"type": "object",
+"properties": {
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"previousRunIdToReTrain": {
+"type": "integer",
+"format": "int32"
+},
+"secretMappings": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"executionParameters": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/ExecutionParameterDataDTO"
+}
+}
+}
+},
+"RunPropertiesUpdateRequestDTO": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/RunStatusDTO"
+}
+}
+},
+"RunStatusDTO": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Aborting"
+],
+"enum": [
+"Aborting"
+]
+},
+"RunLogsResponseDTO": {
+"type": "object",
+"properties": {
+"logs": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+}
+},
+"RunOutputDTO": {
+"type": "object",
+"properties": {
+"value": {
+"type": "string"
+},
+"type": {
+"type": "string"
+},
+"representation": {
+"type": "string"
+}
+}
+},
+"RunResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"repositoryPipelineId",
+"repositoryVersionNumber",
+"status",
+"totalBlocks",
+"finishedBlocks",
+"tenantId",
+"autoDeployEnabled"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"status": {
+"$ref": "#/definitions/RunStatus"
+},
+"totalBlocks": {
+"type": "integer",
+"format": "int32"
+},
+"finishedBlocks": {
+"type": "integer",
+"format": "int32"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"runtimeName": {
+"type": "string"
+},
+"runtimeId": {
+"type": "string"
+},
+"created": {
+"type": "string",
+"format": "date-time"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"forecastingEngineName": {
+"type": "string"
+},
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"metrics": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/MetricDTO"
+}
+},
+"autoDeployEnabled": {
+"type": "boolean"
+}
+}
+},
+"RunSortEntity": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Run",
+"Metric"
+],
+"enum": [
+"Run",
+"Metric"
+]
+},
+"ServingDetailedResponseDTO": {
+"type": "object",
+"required": [
+"id",
+"repositoryPipelineId",
+"repositoryVersionNumber",
+"status",
+"tenantId"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"secretMappings": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"executionParameters": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/ExecutionParameterDataDTO"
+}
+},
+"runtimeName": {
+"type": "string"
+},
+"runtimeId": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/ServingStatus"
+},
+"logsTail": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"detailedStatus": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/DetailedStatusDTO"
+}
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"owner": {
+"type": "string"
+},
+"runId": {
+"type": "integer",
+"format": "int32"
+}
+}
+},
+"ServingStatus": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Created",
+"Starting",
+"Ready",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+],
+"enum": [
+"Created",
+"Starting",
+"Ready",
+"Finished",
+"Failed",
+"Aborting",
+"Aborted",
+"StatusUpdating",
+"Queued"
+]
+},
+"ServingCreateRequestDto": {
+"type": "object",
+"properties": {
+"runId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"secretMappings": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+},
+"executionParameters": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/ExecutionParameterDataDTO"
+}
+}
+}
+},
+"ServingDetailedResponseV2DTO": {
+"type": "object",
+"required": [
+"id",
+"repositoryPipelineId",
+"repositoryVersionNumber",
+"status",
+"tenantId"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"runtimeName": {
+"type": "string"
+},
+"runtimeId": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/ServingStatus"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"runId": {
+"type": "integer",
+"format": "int32"
+},
+"forecastingEngineName": {
+"type": "string"
+},
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"executionParameters": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/ExecutionParameterDataDTO"
+}
+},
+"detailedStatus": {
+"type": "object",
+"additionalProperties": {
+"$ref": "#/definitions/DetailedStatusDTO"
+}
+},
+"logsTail": {
+"type": "array",
+"items": {
+"type": "string"
+}
+},
+"secretMappings": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/SecretMappingDTO"
+}
+}
+}
+},
+"ServingLogsResponseDTO": {
+"type": "object",
+"properties": {
+"logs": {
+"type": "array",
+"items": {
+"type": "string"
+}
+}
+}
+},
+"ServingResponseV2DTO": {
+"type": "object",
+"required": [
+"id",
+"repositoryPipelineId",
+"repositoryVersionNumber",
+"status",
+"tenantId"
+],
+"properties": {
+"id": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryPipelineId": {
+"type": "integer",
+"format": "int32"
+},
+"repositoryVersionNumber": {
+"type": "integer",
+"format": "int32"
+},
+"runtimeName": {
+"type": "string"
+},
+"runtimeId": {
+"type": "string"
+},
+"owner": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/ServingStatus"
+},
+"errorMessage": {
+"type": "string"
+},
+"tenantId": {
+"type": "string",
+"format": "guid"
+},
+"started": {
+"type": "string",
+"format": "date-time"
+},
+"finished": {
+"type": "string",
+"format": "date-time"
+},
+"runId": {
+"type": "integer",
+"format": "int32"
+},
+"forecastingEngineName": {
+"type": "string"
+},
+"forecastingEngineId": {
+"type": "integer",
+"format": "int32"
+},
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+}
+}
+},
+"ServingPropertiesUpdateRequestDto": {
+"type": "object",
+"properties": {
+"name": {
+"type": "string"
+},
+"description": {
+"type": "string"
+},
+"status": {
+"$ref": "#/definitions/ServingStatusDto"
+}
+}
+},
+"ServingStatusDto": {
+"type": "string",
+"description": "",
+"x-enumNames": [
+"Aborting"
+],
+"enum": [
+"Aborting"
+]
+}
+},
+"securityDefinitions": {
+"JWT Token": {
+"type": "apiKey",
+"description": "Copy this into the value field: Bearer {token}",
+"name": "Authorization",
+"in": "header"
+}
+},
+"security": [
+{
+"JWT Token": []
+}
+],
+"host": "localhost:30060"
+}

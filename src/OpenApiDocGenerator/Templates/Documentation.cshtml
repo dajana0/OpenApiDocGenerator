@@ -1,0 +1,104 @@
+@using Microsoft.OpenApi.Models
+@model OpenApiDocument
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            color: #2c5282;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #4a5568;
+            margin-bottom: 40px;
+        }
+
+        .endpoint {
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .endpoint-path {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2d3748;
+            background-color: #f7fafc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .method-post { background-color: #48bb78; }
+        .method-get { background-color: #4299e1; }
+        .method-put { background-color: #ecc94b; }
+        .method-delete { background-color: #f56565; }
+
+        .parameters-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .parameters-table th {
+            background-color: #4a5568;
+            color: white;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .parameters-table td {
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+        }
+
+        .response {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f7fafc;
+            border-radius: 4px;
+        }
+
+        .required {
+            color: #e53e3e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">@Model.Info.Title</div>
+    <div class="description">@Model.Info.Description</div>
+    @foreach (var path in Model.Paths)
+    {
+        <div class="endpoint">
+        <div class="endpoint-path">@path.Key</div>
+
+        </div>
+
+    }
+
+
+</body>
+</html>
